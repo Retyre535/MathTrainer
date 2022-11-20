@@ -34,21 +34,28 @@ public class MainActivity extends AppCompatActivity {
         binding.solution2.setBackgroundColor(getColor(R.color.still));
         binding.solution3.setBackgroundColor(getColor(R.color.still));
         int position = problem.getRandom(1, 4);
+        int Res = problem.getResult();
+        int NoRes1 = problem.getNoiseResult();
+        int NoRes2 = problem.getNoiseResult();
+        while ((Res == NoRes1)||(Res == NoRes2)||(NoRes1 == NoRes2)){
+            NoRes1 = problem.getNoiseResult();
+            NoRes2 = problem.getNoiseResult();
+        }
         switch (position) {
             case 1:
-                binding.solution1.setText(String.valueOf(problem.getResult()));
-                binding.solution1.setText(String.valueOf(problem.getNoiseResult()));
-                binding.solution1.setText(String.valueOf(problem.getNoiseResult()));
+                binding.solution1.setText(String.valueOf(Res));
+                binding.solution2.setText(String.valueOf(NoRes1));
+                binding.solution3.setText(String.valueOf(NoRes2));
                 break;
             case 2:
-                binding.solution1.setText(String.valueOf(problem.getNoiseResult()));
-                binding.solution1.setText(String.valueOf(problem.getResult()));
-                binding.solution1.setText(String.valueOf(problem.getNoiseResult()));
+                binding.solution1.setText(String.valueOf(NoRes1));
+                binding.solution2.setText(String.valueOf(Res));
+                binding.solution3.setText(String.valueOf(NoRes2));
                 break;
             case 3:
-                binding.solution1.setText(String.valueOf(problem.getNoiseResult()));
-                binding.solution1.setText(String.valueOf(problem.getNoiseResult()));
-                binding.solution1.setText(String.valueOf(problem.getResult()));
+                binding.solution1.setText(String.valueOf(NoRes1));
+                binding.solution2.setText(String.valueOf(NoRes2));
+                binding.solution3.setText(String.valueOf(Res));
                 break;
         }
     }
@@ -69,10 +76,16 @@ public class MainActivity extends AppCompatActivity {
                     if (text.equals(String.valueOf(problem.getResult()))) {
                         view.setBackgroundColor(getColor(R.color.correct));
                         Toast.makeText(MainActivity.this, "Правильно!", Toast.LENGTH_SHORT).show();
+                        generateProblem();
                     } else {
                         view.setBackgroundColor(getColor(R.color.wrong));
                         Toast.makeText(MainActivity.this, "Не правильно :(", Toast.LENGTH_SHORT).show();
                     }
+            }
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
     }

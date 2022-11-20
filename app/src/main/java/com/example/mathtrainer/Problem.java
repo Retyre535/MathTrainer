@@ -17,17 +17,42 @@ public class Problem {
         return result + getRandom(-4,4);
     }
 
-    public String getProblem(){
-        int a = getRandom(-50,50);
-        int b = getRandom(-50,50);
+    public String getProblem() {
+        int a = getRandom(-50, 50);
+        int b = getRandom(-50, 50);
         String sign = getRandomSign();
         if (sign.equals("+")) result = a + b;
-        else result = a - b;
-        return a + sign + b;
-
+        else if (sign.equals("-")) result = a - b;
+        else if (sign.equals("/")) {
+            while (b == 0)
+                b = getRandom(-50, 50);
+            if (Math.abs(a)<Math.abs(b)) {
+                int c = a;
+                a = b;
+                b = c;
+            }
+            result = a / b;
+        } else if (sign.equals("*")) result = a * b;
+        if (sign.equals("+") && b < 0) {
+            sign = "-";
+            b *= -1;
+        } else if (sign.equals("-") && b < 0) {
+            sign = "+";
+            b *= -1;
+        }
+        if ((sign.equals("/") || sign.equals("*")) && b < 0) {
+            sign += " (";
+            return a + sign + b+")";
+        } else return a + sign + b;
     }
 
     private String getRandomSign(){
-        return random.nextBoolean()? "-" : "+";
+        int c = getRandom(-100,100);
+        String d;
+        if (c%4==1) d ="+";
+        else if (c%4==2) d ="-";
+        else if (c%4==3) d ="/";
+        else d="*";
+        return d;
     }
 }
